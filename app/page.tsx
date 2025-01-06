@@ -1,6 +1,20 @@
+"use client"
 import Image from "next/image";
+import React from "react";
 
 export default function Home() {
+  const steamKey = process.env.NEXT_PUBLIC_STEAM_KEY
+
+  const [data, setData] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch(`https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${steamKey}&steamids=76561197960435530`)
+      .then((res) => res.json())
+      .then((data) => setData(data.response.players[0]));
+  }, []);
+
+  console.log(data)
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
